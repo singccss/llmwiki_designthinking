@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>設計思考（Design Thinking）入門教學簡報</title>
+  <!-- 引入 Reveal.js 簡報框架 (CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #0f172a;
+      --accent: #f59e0b;
+      --bg-light: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+    }
+
+    body {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    .reveal {
+      color: var(--text-main);
+    }
+
+    .reveal .slides section {
+      padding: 10px 20px;
+      box-sizing: border-box;
+    }
+
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: var(--secondary);
+      text-transform: none;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .reveal h1 { font-size: 2.0em; margin-bottom: 0.3em; }
+    .reveal h2 { 
+      font-size: 1.3em; 
+      margin-bottom: 0.45em; 
+      border-bottom: 3px solid var(--primary); 
+      display: inline-block; 
+      padding-bottom: 4px; 
+    }
+    .reveal h3 { font-size: 0.95em; color: var(--primary); margin: 0 0 8px 0; }
+
+    .reveal p, .reveal li {
+      font-size: 0.68em;
+      line-height: 1.45;
+    }
+
+    .reveal ul {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    .reveal li {
+      margin-bottom: 6px;
+    }
+
+    /* 封面頁樣式 */
+    .cover-badge {
+      background: #dbeafe;
+      color: var(--primary);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.6em;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+
+    .cover-quote {
+      margin-top: 24px;
+      padding: 14px 20px;
+      background: #f1f5f9;
+      border-left: 5px solid var(--accent);
+      font-size: 0.7em;
+      color: #334155;
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* 卡片與網格佈局 */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .card {
+      background: var(--bg-light);
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 18px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-highlight { border-top: 4px solid var(--primary); }
+    .card-accent { border-top: 4px solid var(--accent); }
+
+    /* 表格樣式 */
+    .reveal table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.64em;
+      margin-top: 8px;
+    }
+
+    .reveal th {
+      background: var(--secondary);
+      color: white;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .reveal td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #cbd5e1;
+      text-align: left;
+    }
+
+    .reveal tr:nth-child(even) { background: #ffffff; }
+
+    /* 五步驟流程圖 */
+    .flow-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 18px 0;
+      gap: 6px;
+    }
+
+    .flow-step {
+      flex: 1;
+      background: var(--primary);
+      color: white;
+      padding: 14px 8px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .flow-step.problem { background: #1e40af; }
+    .flow-step.solution { background: #0284c7; }
+
+    .flow-step strong { display: block; font-size: 0.78em; margin-bottom: 3px; }
+    .flow-step span { font-size: 0.58em; opacity: 0.9; }
+
+    .flow-arrow {
+      font-size: 1.0em;
+      color: var(--text-muted);
+      font-weight: bold;
+    }
+
+    .loop-banner {
+      background: #fef3c7;
+      border: 1px dashed #d97706;
+      color: #92400e;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.66em;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    /* 同理心地圖六宮格 */
+    .empathy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+      text-align: left;
+    }
+
+    .empathy-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 10px 12px;
+      border-radius: 8px;
+    }
+
+    .empathy-box h4 {
+      margin: 0 0 4px 0;
+      font-size: 0.68em;
+      color: var(--primary);
+    }
+
+    .empathy-box p {
+      margin: 0;
+      font-size: 0.58em;
+      line-height: 1.35;
+      color: #475569;
+    }
+
+    .formula-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.65em;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .wiki-tag {
+      margin-top: 12px;
+      text-align: right;
+      font-size: 0.48em;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 第 1 頁：封面 -->
+      <section>
+        <div class="cover-badge">DESIGN THINKING 101 • 初學者入門指南</div>
+        <h1>什麼是「設計思考」？</h1>
+        <p style="font-size: 0.85em; color: #475569;">一套「以人為本」解決棘手問題的思維心法與實戰流程</p>
+        <div class="cover-quote">
+          「在急著寫程式或做產品之前，先問：<br><strong>我們真的理解問題的根源嗎？我們是否在解決對的問題？</strong>」
+        </div>
+        <div class="wiki-tag">知識來源：design_thinking_wiki / index.md</div>
+      </section>
+
+      <!-- 第 2 頁：核心精神與定義 -->
+      <section>
+        <h2>一、核心精神：不只是「把東西變好看」</h2>
+        <div class="grid-2">
+          <div class="card card-highlight">
+            <h3>💡 權威定義</h3>
+            <ul>
+              <li><strong>賈伯斯（Steve Jobs）</strong>：設計不只是外觀與感覺，更是<strong>整件事物的運作方式</strong>。</li>
+              <li><strong>IDEO 執行長 Tim Brown</strong>：在<strong>技術可行性</strong>與<strong>商業可行性</strong>的前提下，滿足<strong>人的真實需求</strong>。</li>
+            </ul>
+          </div>
+          <div class="card card-accent">
+            <h3>⚖️ 傳統解題 vs. 設計思考</h3>
+            <table>
+              <tr>
+                <th>比較維度</th>
+                <th>傳統解決問題</th>
+                <th>設計思考</th>
+              </tr>
+              <tr>
+                <td><strong>核心出發點</strong></td>
+                <td>以「問題」為核心</td>
+                <td>以「人」為核心</td>
+              </tr>
+              <tr>
+                <td><strong>處理對象</strong></td>
+                <td>有標準答案的明確問題</td>
+                <td>模糊無解的「棘手問題」</td>
+              </tr>
+              <tr>
+                <td><strong>行動方式</strong></td>
+                <td>一次性規劃與執行</td>
+                <td>快速試錯、持續迭代</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="wiki-tag">知識來源：01_core_philosophy.md</div>
+      </section>
+
+      <!-- 第 3 頁：演進簡史 -->
+      <section>
+        <h2>二、設計思考的演進脈絡</h2>
+        <p style="text-align: left; color: #64748b; margin-bottom: 8px;">從哲學實用主義到席捲全球的創新方法論：</p>
+        <div class="grid-3">
+          <div class="card">
+            <h3>1. 思想萌芽（19世紀末）</h3>
+            <p>哲學家<strong>杜威（John Dewey）</strong>提倡「從經驗中學習」；<strong>威廉·莫里斯</strong>主張設計應回歸生活、對使用者友善。</p>
+          </div>
+          <div class="card">
+            <h3>2. 理論奠基（20世紀中）</h3>
+            <p>諾貝爾獎得主 <strong>Herbert Simon</strong> 將設計提升為「思考方式」，並提出<strong>「棘手問題（Wicked Problems）」</strong>概念。</p>
+          </div>
+          <div class="card card-highlight">
+            <h3>3. 商業與架構化（1980至今）</h3>
+            <p><strong>IDEO</strong> 將其帶入商業實戰；創辦人 <strong>David Kelley</strong> 在史丹佛 <strong>d.school</strong> 確立五大步驟教學框架。</p>
+          </div>
+        </div>
+        <div class="wiki-tag">知識來源：01_core_philosophy.md</div>
+      </section>
+
+      <!-- 第 4 頁：五大步驟全景圖 -->
+      <section>
+        <h2>三、設計思考五大步驟總覽</h2>
+        <p style="text-align: left; margin-bottom: 6px;">前兩步聚焦<strong>「找對問題（問題空間）」</strong>，後三步聚焦<strong>「做對解答（解決空間）」</strong>：</p>
+        <div class="flow-container">
+          <div class="flow-step problem">
+            <strong>1. 同理心</strong>
+            <span>Empathize</span>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step problem">
+            <strong>2. 定義問題</strong>
+            <span>Define</span>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step solution">
+            <strong>3. 發想</strong>
+            <span>Ideate</span>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step solution">
+            <strong>4. 原型製作</strong>
+            <span>Prototype</span>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step solution">
+            <strong>5. 測試</strong>
+            <span>Test</span>
+          </div>
+        </div>
+        <div class="loop-banner">
+          🔄 關鍵觀念：這不是單向流水線！測試（第 5 步）的回饋會隨時回溯修正「定義（第 2 步）」或「原型（第 4 步）」。
+        </div>
+        <div class="wiki-tag">知識來源：02_problem_space.md, 03_solution_space.md</div>
+      </section>
+
+      <!-- 第 5 頁：Step 1 同理心 -->
+      <section>
+        <h2>Step 1：同理心（Empathize）</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>🔍 身體力行的三要素</h3>
+            <ul>
+              <li><strong>觀察（Observe）</strong>：在真實生活情境中觀察使用者的行為與肢體語言。</li>
+              <li><strong>接觸（Engage）</strong>：進行深度訪談，對話中<strong>多問「為什麼？」</strong>挖出深層動機。</li>
+              <li><strong>看與聆聽（Watch & Listen）</strong>：記錄使用者的真實痛點與情緒起伏。</li>
+            </ul>
+          </div>
+          <div class="card card-accent">
+            <h3>🎓 經典教學案例：d.school 貧困體驗</h3>
+            <p>為讓學生理解低收入戶的真實處境，課程規定每半小時代表一個月，發放食物券要求學生應付房租、學費、跑政府流程，甚至不花一毛錢走回校園。</p>
+            <p style="margin-top: 8px;"><strong>體悟</strong>：唯有親身走過，才明白「連平安回家都需要運氣」的痛點。</p>
+          </div>
+        </div>
+        <div class="wiki-tag">知識來源：02_problem_space.md</div>
+      </section>
+
+      <!-- 第 6 頁：Step 2 定義問題與工具 -->
+      <section>
+        <h2>Step 2：定義問題（Define）</h2>
+        <p style="text-align: left; font-size: 0.65em; margin-bottom: 4px;">將收集到的雜亂資訊收斂，透過<strong>「同理心地圖」</strong>挖掘使用者<strong>言行落差</strong>：</p>
+        <div class="empathy-grid">
+          <div class="empathy-box">
+            <h4>1. Think & Feel（想法與感覺）</h4>
+            <p>內心真正在意什麼？有哪些潛在擔憂與期待？</p>
+          </div>
+          <div class="empathy-box">
+            <h4>2. Hear（聽到了什麼）</h4>
+            <p>同事、親友、KOL 或 AI 搜尋帶來的外部聲音。</p>
+          </div>
+          <div class="empathy-box">
+            <h4>3. See（看到了什麼）</h4>
+            <p>生活環境、社群媒體與競品帶來的視覺刺激。</p>
+          </div>
+          <div class="empathy-box" style="border-color: var(--primary); background: #eff6ff;">
+            <h4>4. Say & Do（說了與做了什麼）</h4>
+            <p><strong>關鍵洞察來源</strong>：觀察口頭說的與實際行為的落差！</p>
+          </div>
+          <div class="empathy-box">
+            <h4>5. Pain（痛苦與阻礙）</h4>
+            <p>挫折、焦慮、達成目標路上的最大障礙。</p>
+          </div>
+          <div class="empathy-box">
+            <h4>6. Gain（獲得與渴望）</h4>
+            <p>功能需求與情感滿足（如被認可的專業感）。</p>
+          </div>
+        </div>
+        <div class="formula-box">
+          <strong>📌 產出工具 — 設計觀點陳述（POV 公式）：</strong>
+          <code>[目標對象]</code> 需要 <code>[某種需求]</code>，因為對他來說 <code>[關鍵洞見]</code> 是重要的。
+        </div>
+        <div class="wiki-tag">知識來源：02_problem_space.md, 04_methods_and_tools.md</div>
+      </section>
+
+      <!-- 第 7 頁：Step 3 發想 -->
+      <section>
+        <h2>Step 3：發想（Ideate）先發散後收斂</h2>
+        <div class="grid-2">
+          <div class="card card-highlight">
+            <h3>🚀 1. 創意發散（HMW 與七大原則）</h3>
+            <ul>
+              <li><strong>HMW 提問法</strong>：問「我們可以如何...」開啟多元解方。</li>
+              <li><strong>腦力激盪鐵律</strong>：<strong>禁止批判</strong>、鼓勵瘋狂點子、互相接續發想、便利貼視覺化。</li>
+              <li><strong>追求數量</strong>：目標 60 分鐘提出 100+ 點子，同時讓內向者透過寫便利貼平等發聲。</li>
+            </ul>
+          </div>
+          <div class="card card-accent">
+            <h3>🎯 2. 民主收斂（分類與投票）</h3>
+            <ul>
+              <li><strong>便利貼分群</strong>：依「功能」或「使用者需求」將點子歸類整理。</li>
+              <li><strong>小圓點投票法（Dot Voting）</strong>：每人發放相同數量的圓點貼紙，直接貼在看好的點子上。</li>
+              <li><strong>決策產出</strong>：選出得票最高的 <strong>2～3 個方案</strong>進入原型製作。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wiki-tag">知識來源：03_solution_space.md, 04_methods_and_tools.md</div>
+      </section>
+
+      <!-- 第 8 頁：Step 4 & 5 原型與測試 -->
+      <section>
+        <h2>Step 4 & 5：原型製作與測試迭代</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>🛠️ Step 4：原型（Prototype）三關鍵</h3>
+            <p style="margin-bottom: 6px;">用最低成本將想法具體化（草圖、紙模型），<strong>最小化失敗代價</strong>：</p>
+            <ul>
+              <li><strong>快速（Fast）</strong>：造價低、製作快，避免沉沒成本。</li>
+              <li><strong>粗糙（Rough）</strong>：展現核心概念即可，不糾結美感。</li>
+              <li><strong>適當（Right）</strong>：單一原型只驗證單一假設。</li>
+            </ul>
+          </div>
+          <div class="card card-highlight">
+            <h3>🧪 Step 5：測試（Test）最高指導原則</h3>
+            <p style="background: #dbeafe; padding: 8px 10px; border-radius: 6px; font-weight: bold; color: #1e3a8a; margin-bottom: 8px;">
+              「做原型時把自己當成是對的，大膽嘗試；<br>測試時把自己當成是錯的，小心求證。」
+            </p>
+            <ul>
+              <li>將原型交給真實使用者操作並收集回饋。</li>
+              <li><strong>迭代路徑</strong>：根據回饋回溯修改「問題定義（Step 2）」或「原型（Step 4）」。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wiki-tag">知識來源：03_solution_space.md</div>
+      </section>
+
+      <!-- 第 9 頁：真實企業案例 -->
+      <section>
+        <h2>四、設計思考改變商業與產品的真實案例</h2>
+        <div class="grid-3">
+          <div class="card card-highlight">
+            <h3>🏠 Airbnb 逆轉破產</h3>
+            <p><strong>痛點</strong>：週收入不到 200 美元。</p>
+            <p><strong>洞察</strong>：房源照片太糟缺乏信任感。</p>
+            <p><strong>原型測試</strong>：創辦人租相機親自拍美照替換，<strong>一週內營收翻倍</strong>。</p>
+          </div>
+          <div class="card card-accent">
+            <h3>💊 PillPack 老人藥局</h3>
+            <p><strong>痛點</strong>：長者常搞混多罐藥瓶與服藥時間。</p>
+            <p><strong>設計解方</strong>：將同一時段要吃的藥預先分裝進<strong>「單一日期藥袋」</strong>並宅配，大幅降低認知負擔。</p>
+          </div>
+          <div class="card card-highlight">
+            <h3>💻 輕薄商務筆電決策</h3>
+            <p><strong>言行落差</strong>：商務客口頭說要「效能最強（Say）」，實際購買卻最在意「重量與續航（Do）」。</p>
+            <p><strong>決策</strong>：鎖定 1.3kg 以下、12 小時續航機型。</p>
+          </div>
+        </div>
+        <div class="wiki-tag">知識來源：05_case_studies.md</div>
+      </section>
+
+      <!-- 第 10 頁：常見誤區與總結 -->
+      <section>
+        <h2>五、實踐避坑指南與行動心法</h2>
+        <div class="grid-2">
+          <div class="card" style="border-left: 5px solid #ef4444;">
+            <h3 style="color: #dc2626;">⚠️ 三大常見實踐誤區</h3>
+            <ul>
+              <li><strong>淪為貼便利貼 SOP</strong>：缺少深度使用者研究，只做表面功夫。</li>
+              <li><strong>線性思維誤區</strong>：把五步驟當成死板的單向流水線（d.school 強調它只是新手「第一份食譜」）。</li>
+              <li><strong>盲目套用標準</strong>：忽略當地文化與情境差異。</li>
+            </ul>
+          </div>
+          <div class="card" style="border-left: 5px solid #10b981;">
+            <h3 style="color: #059669;">🌟 給初學者的總結心法</h3>
+            <ul>
+              <li><strong>愛上問題，而非愛上你的第一個點子</strong>。</li>
+              <li><strong>擁抱模糊與不確定性</strong>，用低成本原型快速驗證假設。</li>
+              <li>從今天起，在動手執行前先問一句：<br><strong>「我們真的理解使用者的痛點了嗎？」</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="wiki-tag">知識來源：01_core_philosophy.md, 05_case_studies.md</div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'slide',
+      width: 1200,
+      height: 700,
+      margin: 0.04,
+      center: true
+    });
+  </script>
+</body>
+</html>
